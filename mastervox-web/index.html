@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0920">
+  <title>Master Vox</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="quantum.css">
+  <script defer src="quantum.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="backdrop.js"></script>
+</head>
+<body>
+<div class="site-backdrop" aria-hidden="true"><canvas id="backdrop-motion"></canvas></div>
+<svg class="frame-library" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="frame-metal" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#0a0917"/>
+      <stop offset=".13" stop-color="var(--frame-edge, #9b78b1)"/>
+      <stop offset=".21" stop-color="#221933"/>
+      <stop offset=".47" stop-color="#090a17"/>
+      <stop offset=".75" stop-color="#382741"/>
+      <stop offset=".9" stop-color="var(--frame-edge, #9b78b1)"/>
+      <stop offset="1" stop-color="#11101e"/>
+    </linearGradient>
+    <linearGradient id="frame-trim" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="var(--frame-light, #ebcded)"/>
+      <stop offset=".22" stop-color="var(--frame-edge, #9b78b1)"/>
+      <stop offset=".48" stop-color="#2d2647"/>
+      <stop offset=".76" stop-color="var(--frame-edge, #9b78b1)"/>
+      <stop offset="1" stop-color="var(--frame-light, #ebcded)"/>
+    </linearGradient>
+    <symbol id="frame-shape" viewBox="0 0 300 200" preserveAspectRatio="none">
+      <path fill="url(#frame-metal)" fill-rule="evenodd"
+        d="M19 1H286L299 14V185L281 199H14L1 186V15Z M23 6H282L294 17V182L278 194H18L6 183V18Z"/>
+      <path class="frame-perimeter" pathLength="100" d="M19 1H286L299 14V185L281 199H14L1 186V15Z"/>
+      <path class="frame-inset" d="M23 6H282L294 17V182L278 194H18L6 183V18Z"/>
+      <path class="frame-corners" d="M2 32V15L19 2H56 M268 2H285L298 15V33 M298 168V185L281 198H244 M32 198H14L2 185V167"/>
+      <path class="frame-notches" d="M25 6h3m3 0h3m3 0h3 M260 194h3m3 0h3m3 0h3"/>
+    </symbol>
+  </defs>
+</svg>
+<main>
+  <header class="masthead">
+    <div class="wordmark"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>MASTER VOX</div>
+    <a href="#master">Mastering</a>
+    <div class="privacy">Traitement sur ton appareil</div>
+  </header>
+  <div class="workspace" id="master">
+    <section class="intro" aria-labelledby="title">
+      <h1 id="title">Master <em>Vox</em></h1>
+      <p>Mastering automatique en ligne</p>
+      <label class="import"><span aria-hidden="true">＋</span> Importer mon mix<input id="file" type="file" accept="audio/*,.wav,.aiff,.aif,.flac,.m4a,.mp3,.ogg"></label>
+      <p class="intro-detail">Mono ou stéréo · 10 min maximum<br>Export WAV 24 bits · 48 kHz</p>
+    </section>
+
+    <section class="console holo-panel" aria-labelledby="console-title">
+        <svg class="panel-frame" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <use href="#frame-shape"/>
+          <path class="frame-sweep" pathLength="100" d="M19 1H286L299 14V185L281 199H14L1 186V15Z"/>
+        </svg>
+      <header class="console-header">
+        <h2 id="console-title">Console de mastering</h2>
+        <label class="monitor"><input id="mono" type="checkbox"> Écoute mono</label>
+      </header>
+      <div class="deck">
+        <div class="module-bank">
+          <button class="module" type="button" data-control="low"><span aria-hidden="true">≋</span>Égaliseur</button>
+          <button class="module" type="button" data-control="drive"><span aria-hidden="true">◉</span>Saturation</button>
+        </div>
+        <div class="reactor">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="reactor-ring reactor-ring-outer" aria-hidden="true"></div>
+          <div class="reactor-ring reactor-ring-inner" aria-hidden="true"></div>
+          <div class="reactor-reticle" aria-hidden="true"></div>
+          <button id="auto" disabled><svg class="core-symbol" viewBox="0 0 90 108" aria-hidden="true" focusable="false">
+              <defs><linearGradient id="facet-light" x2="1" y2="1"><stop stop-color="#fff8e6"/><stop offset=".46" stop-color="#ec9aff"/><stop offset="1" stop-color="#7d2dfa"/></linearGradient></defs>
+              <path d="M45 4 86 56 45 104 4 56Z" fill="url(#facet-light)" fill-opacity=".85" stroke="#fff0cc" stroke-width="2"/>
+              <path d="M45 4 28 56 45 104 62 56Z" fill="#fcf4ff" fill-opacity=".47"/>
+              <path d="M4 56h82M45 4v100M45 4 28 56l17 48 17-48Z" fill="none" stroke="#fff7eb" stroke-width="1.1"/>
+            </svg><span>Mastering auto</span></button>
+        </div>
+        <div class="module-bank">
+          <button class="module" type="button" data-control="threshold"><span aria-hidden="true">⋈</span>Compression</button>
+          <button class="module" type="button" data-control="ceiling"><span aria-hidden="true">⌁</span>Limiteur</button>
+        </div>
+      </div>
+      <section class="finish" aria-label="Rendu et export">
+        <dl>
+          <div><dt>Crête</dt><dd id="peak">—</dd></div>
+          <div><dt>Réduction max.</dt><dd id="reduction">—</dd></div>
+        </dl>
+        <div class="actions">
+          <button id="render" disabled>Appliquer</button>
+          <button id="export" class="primary" disabled>Exporter WAV</button>
+        </div>
+      </section>
+      <p id="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="side">
+      <section class="studio holo-panel" aria-labelledby="listen-title">
+        <svg class="panel-frame" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <use href="#frame-shape"/>
+          <path class="frame-sweep" pathLength="100" d="M19 1H286L299 14V185L281 199H14L1 186V15Z"/>
+        </svg>
+        <h2 id="listen-title">Écoute avant / après</h2>
+        <div class="track-label"><strong id="track-name">En attente d’un mix</strong><span id="track-info">Importe un fichier pour lancer le mastering.</span></div>
+        <div class="wave-frame">
+          <canvas id="wave" aria-hidden="true"></canvas>
+          <span id="wave-empty" aria-hidden="true">Aucun signal</span>
+        </div>
+        <label class="seek"><span class="sr-only">Position de lecture</span><input id="seek" type="range" min="0" max="1" value="0" step=".01" disabled></label>
+        <div class="transport">
+          <button id="play" disabled>Écouter</button>
+          <button id="compare" aria-pressed="false" disabled>Original A/B</button>
+          <span id="time">0:00 / 0:00</span>
+        </div>
+      </section>
+      <section class="styles holo-panel" aria-labelledby="style-title">
+        <svg class="panel-frame" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <use href="#frame-shape"/>
+        </svg>
+        <h2 id="style-title">Styles de mastering</h2>
+        <label class="sr-only" for="preset">Préréglage</label>
+        <select id="preset">
+          <option value="auto">Mastering automatique</option>
+          <option value="0">Neutre</option><option value="1">Graves et punch</option>
+          <option value="2">Clarté</option><option value="3">Compression douce</option>
+          <option value="" disabled>Personnalisé</option>
+        </select>
+      </section>
+    </aside>
+  </div>
+  <details class="advanced holo-panel">
+    <summary>Modifier les réglages
+    <svg class="advanced-frame" aria-hidden="true" focusable="false">
+      <path class="frame-perimeter"/>
+      <path class="frame-inset"/>
+    </svg>
+    </summary>
+    <div class="advanced-body">
+      <div class="quantum-toolbar">
+        <div class="quantum-switch" role="group" aria-label="Univers de réglage"></div>
+        <label class="quantum-lite"><input id="quantum-lite" type="checkbox"> Mode léger</label>
+      </div>
+      <div id="quantum-stage" class="quantum-stage">
+        <canvas aria-hidden="true"></canvas>
+        <div class="quantum-handles"></div>
+      </div>
+      <p class="quantum-hint">Glisse les points. Utilise les flèches au clavier pour affiner.</p>
+      <section class="controls quantum-controls" id="controls" aria-label="Valeurs précises"></section>
+    </div>
+
+  </details>
+</main>
+</body>
+</html>
